@@ -1,0 +1,15 @@
+version: '2'
+services:
+    product-server:
+        container_name: product-server
+        build:
+            context: docker-product-server
+            dockerfile: Dockerfile
+        image: product-server:latest
+        ports:
+            - 8080:9999
+        networks:
+            - ms-upandrunning
+networks:
+    ms-upandrunning:
+        driver: bridge
