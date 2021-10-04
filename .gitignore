@@ -1,5 +1,5 @@
 /out/
-/msupandrunning.iml
 /products-microservice.iml
 /.idea/
 /target/
+/'/var/log/app.log'

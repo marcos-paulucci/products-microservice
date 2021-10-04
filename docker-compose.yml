@@ -1,15 +1,42 @@
 version: '2'
 services:
     product-server:
-        container_name: product-server
+        container_name: product-server-spring
         build:
-            context: docker-product-server
+            context: .
             dockerfile: Dockerfile
         image: product-server:latest
         ports:
-            - 8080:9999
+            - "8080:9999"
         networks:
-            - ms-upandrunning
+            - products-ms
+        links:
+            - redis
+        depends_on:
+            redis:
+                condition: service_healthy
+    redis:
+        container_name: redis
+        image: redis:6-alpine
+        restart: always
+        command: redis-server /usr/local/etc/redis/redis.conf
+        ### you only need to host-map this port if you have an app (DB GUI Editor?)
+        ### on host that needs access to the Redis DB. Otherwise, keep it commented.
+        ports:
+            - "6379:6379"
+        expose:
+            - 6379
+        volumes:
+            - ms_products_redis_data:/data
+            - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+        environment:
+            - REDIS_REPLICATION_MODE=master
+        networks:
+            - products-ms
+        healthcheck:
+            test: [ "CMD", "redis-cli","ping" ]
 networks:
-    ms-upandrunning:
+    products-ms:
         driver: bridge
+volumes:
+    ms_products_redis_data:
