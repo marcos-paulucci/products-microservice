@@ -7,7 +7,7 @@ services:
             dockerfile: Dockerfile
         image: product-server:latest
         ports:
-            - "8080:9999"
+            - "8081:9999"
         networks:
             - products-ms
         links:

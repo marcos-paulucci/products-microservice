@@ -8,7 +8,6 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 @Configuration
 class Config {
 
-
     @Bean
     public JedisConnectionFactory redisConnectionFactory() {
 
